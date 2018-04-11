@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home'
-import AddItem from '@/components/AddItem'
-import EditItem from '@/components/EditItem'
+import AppHome from '@/pages/AppHome'
+import ShoppingList from '@/pages/ShoppingList'
+import StockList from '@/pages/StockList'
 
 Vue.use(Router)
 
@@ -11,18 +11,18 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
-      component: Home
+      name: 'AppHome',
+      component: AppHome
     },
     {
-      path: '/add-item',
-      name: 'AddItem',
-      component: AddItem
+      path: '/shopping-list',
+      name: 'ShoppingList',
+      component: ShoppingList
     },
     {
-      path: '/edit-item/:id',
-      name: 'EditItem',
-      component: EditItem
+      path: '/stock-list',
+      name: 'StockList',
+      component: StockList
     }
   ]
 })

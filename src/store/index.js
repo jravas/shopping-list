@@ -15,7 +15,10 @@ const vuexLocalStorage = new VuexPersist({
 
 export default new Vuex.Store({
   state: {
-    items: []
+    itemId: 0,
+    items: [],
+    stock: [],
+    totalStock: 0
   },
   actions: {
     addItem ({commit}, item) {
@@ -26,17 +29,25 @@ export default new Vuex.Store({
     },
     deleteItem ({commit}, item) {
       this.commit('deleteItemMutation', item)
+    },
+    addTooStock ({commit}, item) {
+      this.commit('addTooStockMutation', item)
+    },
+    totalInStock ({commit}, item) {
+      this.commit('totalInStockMutation', item)
     }
   },
   mutations: {
     addItemsMutation (state, item) {
+      item.id = state.itemId
+      state.itemId++
       state.items.push(item)
     },
     editItemMutation (state, item) {
+      console.log(item)
       state.items.forEach(el => {
         if (el.id === item.id) {
           el.name = item.name
-          el.price = item.price
         }
       })
     },
@@ -45,6 +56,15 @@ export default new Vuex.Store({
         if (el.id === item) {
           state.items.splice(i, 1)
         }
+      })
+    },
+    addTooStockMutation (state, item) {
+      state.stock.push(item)
+    },
+    totalInStockMutation (state) {
+      state.totalStock = 0
+      state.stock.forEach(el => {
+        state.totalStock += Number(el.price)
       })
     }
   },

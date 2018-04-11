@@ -10,6 +10,8 @@
 - [ ] Stock
 - [ ] Recepies
 - [ ] Menu for month
+- [ ] don't duplicate items if added to stock increment counter
+- [ ] make use of slots in modal
 
 
 ## Build Setup
