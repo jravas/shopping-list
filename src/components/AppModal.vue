@@ -3,7 +3,7 @@
       <div style="background-color: rgba(0,0,0,0.5);display:block;" class="modal fade show" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <!-- create new modal body -->
-          <div class="modal-content" v-if="!data">
+          <div class="modal-content" v-if="!data.item && !data.edit">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLongTitle">Add new item</h5>
               <button @click="$emit('close')" type="button" class="close" data-dismiss="modal" aria-label="Close">
