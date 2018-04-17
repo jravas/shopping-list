@@ -114,6 +114,9 @@ export default {
       this.$emit('update')
     },
     addToStock () {
+      // set day of purchase
+      this.data.item.purchaseDate = new Date()
+      // set item price
       this.data.item.price = this.price
       // add item to store
       this.$store.dispatch('addTooStock', this.data.item)

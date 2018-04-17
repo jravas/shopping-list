@@ -27,7 +27,7 @@
     </div>
     <div class="row">
       <div class="col text-right">
-        <p class="h5">Total: {{ $store.state.totalStock }} $</p>
+        <p class="h5">Total: {{ $store.state.totalStock.toFixed(2) }} $</p>
       </div>
     </div>
   </div>

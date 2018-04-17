@@ -4,7 +4,8 @@
 
 ## TODO
 
-- [ ] Router lazy loading
+- [x] Router lazy loading
+- [ ] Remove Vue chart js
 - [ ] Adding empty item -- validation
 - [ ] Dashboard
 - [ ] Stock

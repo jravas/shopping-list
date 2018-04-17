@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import AppHome from '@/pages/AppHome'
-import ShoppingList from '@/pages/ShoppingList'
-import StockList from '@/pages/StockList'
+const AppHome = () => import('@/pages/AppHome')
+const ShoppingList = () => import('@/pages/ShoppingList')
+const StockList = () => import('@/pages/StockList')
 
 Vue.use(Router)
 

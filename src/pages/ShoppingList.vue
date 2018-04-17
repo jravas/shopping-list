@@ -19,7 +19,7 @@
 
 <script>
 import ItemsList from '@/components/ItemsList'
-import AppModal from '@/components/AppModal'
+const AppModal = () => import('@/components/AppModal')
 export default {
   name: 'ShoppingList',
   components: {
