@@ -1,17 +1,10 @@
 <template>
   <div>
-    <div class="row">
-      <div class="col">
-        <p class="h2">Items in Shopping list</p>
-        <hr class="my-4">
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <button @click="toggleModal('new')" class="btn btn-primary btn-block" href="#" role="button">Add new item</button>
-      </div>
-    </div>
-    <br>
+    <span class="add-new" @click="toggleModal('new')">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="25px" height="25px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;" xml:space="preserve">
+        <polygon points="612,286.893 325.116,286.893 325.116,0.296 286.903,0.296 286.903,286.893 0,286.893 0,325.107 286.903,325.107      286.903,611.704 325.116,611.704 325.116,325.107 612,325.107    " fill="#FFFFFF"/>
+      </svg>
+    </span>
     <items-list v-if="items" :data="items" @add="addToStock" @edit="editItem"></items-list>
     <app-modal v-if="isModalOpen" @close="toggleModal('new')" @update="updateView" :data="{item: stockItem, edit: isModalEdit}"></app-modal>
   </div>
@@ -56,10 +49,12 @@ export default {
       this.stockItem = item
       this.toggleModal('edit')
     },
-    updateView () {
+    updateView (data) {
       // view should update automatic
       // this is quick bug fix
-      this.items = this.$store.state.items
+      // this.items = this.$store.state.items
+      console.log(data.name)
+      this.items.splice(data.index, 1, {id: data.id, name: data.name})
     }
   },
   mounted () {
@@ -67,3 +62,19 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.add-new {
+  position: absolute;
+  right: 40px;
+  top: -40px;
+  background-color: #FF3366;
+  box-sizing: border-box;
+  padding: 10px;
+  display: inline-block;
+  border-radius: 50%;
+  svg {
+    display: block;
+  }
+}
+</style>

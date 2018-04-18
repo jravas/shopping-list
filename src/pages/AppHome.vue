@@ -1,7 +1,27 @@
 <template>
   <div>
     <div class="row">
-      <vue-event-calendar :events="events"></vue-event-calendar>
+      <vue-event-calendar
+      :events="events"
+      @day-changed="handleDayChanged">
+        <!-- <template scope="props">
+          <div v-for="(event, index) in props.showEvents" :key="index" class="event-item">
+            {{event}}
+          </div>
+        </template> -->
+        <template slot-scope="props">
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center event-item"
+                v-for="(item, index) in props.showEvents"
+                :key="index">
+              <a>{{ item.title }}</a>
+              <span class="badge">
+                {{ item.desc }} $
+              </span>
+            </li>
+          </ul>
+        </template>
+      </vue-event-calendar>
     </div>
     <!-- <div class="row">
       <div class="col">
@@ -33,15 +53,32 @@ export default {
       ]
     }
   },
+  methods: {
+    handleDayChanged (data) {
+      console.log(data)
+    }
+  },
   mounted () {
     this.$store.dispatch('totalInStock')
     this.$store.state.stock.forEach(el => {
       this.events.push({ date: moment(el.purchaseDate).format('YYYY/MM/DD'), title: el.name, desc: el.price })
-      console.log(moment(el.purchaseDate).format('YYYY/MM/DD'))
     })
-    // console.log(this.$store.state.stock)
-    // this.renderChart(this.testData, {responsive: true, maintainAspectRatio: false})
-    console.log(moment())
+    // set event calendar today
+    console.log(this.$EventCalendar)
   }
 }
 </script>
+
+<style lang="scss">
+.events-wrapper {
+  // color is changed by plugin internal JavaScript :(
+  background-color: #e9ecef !important;
+  .date {
+    display: none;
+  }
+}
+.is-today {
+  border-radius: 0 !important;
+  height: 2px !important;
+}
+</style>

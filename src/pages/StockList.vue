@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <!-- <div>
     <div class="row">
       <div class="col">
         <p class="h2">Items in stock</p>
@@ -30,6 +30,18 @@
         <p class="h5">Total: {{ $store.state.totalStock.toFixed(2) }} $</p>
       </div>
     </div>
+  </div> -->
+  <div>
+    <ul class="list">
+      <li
+          v-for="(item, index) in items"
+          :key="index">
+        <a>{{ item.name }}</a>
+        <span class="price">
+          {{ item.price }} $
+        </span>
+      </li>
+    </ul>
   </div>
 </template>
 

@@ -5,14 +5,21 @@
 ## TODO
 
 - [x] Router lazy loading
-- [ ] Remove Vue chart js
+- [ ] Remove Vue chart js and other unused NPM packages
+- [ ] Stock ids conflict
 - [ ] Adding empty item -- validation
 - [ ] Dashboard
-- [ ] Stock
+- [x] Stock
 - [ ] Recepies
 - [ ] Menu for month
 - [ ] don't duplicate items if added to stock increment counter
 - [ ] make use of slots in modal
+- [ ] add used option in stock
+- [ ] different images on different routes
+- [ ] responsive triangle
+- [ ] item.item in appModal -> Shopping list
+- [ ] stock and shopping list is empty message
+- [ ] download font
 
 
 ## Build Setup
