@@ -21,7 +21,10 @@
         </ul>
       </transition>
     </nav>
-    <h1>{{ $route.name }}</h1>
+    <h1 v-if="$route.name !== 'Home'">{{ $route.name }}</h1>
+    <div class="wrapper" v-if="$route.name === 'Home'">
+      <datepicker @selected="dateSelected" :inline="true" :monday-first="true" :highlighted="highlighted" :value="selectedDate"></datepicker>
+    </div>
     <div class="triangle">
       <svg height="120" width="1920">
         <polygon points="0,120 1920,0 1920,120" style="fill:white;" />
@@ -32,22 +35,49 @@
 </template>
 
 <script>
+import Datepicker from 'vuejs-datepicker'
 export default {
+  components: {
+    Datepicker
+  },
   data () {
     return {
-      isActive: false
+      isActive: false,
+      selectedDate: new Date(),
+      highlighted: {
+        dates: []
+      }
     }
   },
   methods: {
     toggleNav () {
       this.isActive = !this.isActive
+    },
+    dateSelected (date) {
+      this.selectedDate = date
+      this.$store.dispatch('selectDate', date)
     }
+  },
+  mounted () {
+    this.$store.dispatch('selectDate', this.selectedDate)
+    this.$store.state.stock.forEach(el => {
+      this.highlighted.dates.push(new Date(el.purchaseDate))
+    })
   },
   watch: {
     '$route': function (from, to) {
       if (this.isActive) {
         this.toggleNav()
       }
+      if (to.name === 'Home') {
+        this.selectedDate = new Date()
+        this.$store.dispatch('selectDate', this.selectedDate)
+      }
+    },
+    '$store.state.stock': function (val1, val2) {
+      this.$store.state.stock.forEach(el => {
+        this.highlighted.dates.push(new Date(el.purchaseDate))
+      })
     }
   }
 }
@@ -77,13 +107,20 @@ export default {
     position: relative;
     padding: 15px 15px;
     .menu {
+      z-index: 998;
+      position: relative;
       cursor: pointer;
+      outline: none;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
     }
     .close {
       position: absolute;
       z-index: 999;
       top: 30px;
       right: 30px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
     }
     ul {
       position: fixed;
@@ -101,6 +138,7 @@ export default {
       line-height: 48px;
       li {
         position: relative;
+        -webkit-tap-highlight-color: transparent;
         a {
           font-size: 28px;
           text-decoration: none;
@@ -134,6 +172,50 @@ export default {
       text-align: initial;
     }
   }
+  .vdp-datepicker__calendar {
+    min-height: 340px;
+    margin: 0 auto;
+    margin-top: -50px;
+    margin-bottom: -100px;
+    background: transparent;
+    color: white;
+    border: none;
+    font-weight: 300;
+    user-select: none;
+    header {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+  .up {
+    order: 1;
+    font-size: 20px;
+    text-align: left;
+    padding-left: 40px;
+  }
+  .next {
+    order: 3;
+    &:after {
+      border-left-color: #fff !important;
+    }
+  }
+  .prev {
+    order: 2;
+    &:after {
+      border-right-color: #fff !important;
+    }
+  }
+  .selected,  .highlighted  {
+    border-radius: 50%;
+    background: transparent !important;
+  }
+  .highlighted {
+    border: 1px solid #fff !important;
+  }
+  .selected {
+    border: 1px solid #FF3366 !important;
+    color: #FF3366;
+  }
   .triangle {
     // on mobile on desktop is to large
     margin-top: -45px;
@@ -143,11 +225,17 @@ export default {
       display: block;
     }
   }
-}
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .9s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
+  .cell {
+    width: calc(286px / 7) !important;
+    height: 38px;
+    line-height: 38px;
+    margin: 1px 1px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .year,.month {
+    border: none !important;
+    width: 50% !important;
+    margin: 0 !important;
+  }
 }
 </style>

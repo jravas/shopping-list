@@ -1,36 +1,41 @@
 <template>
   <div>
-    <div class="row">
-      <vue-event-calendar
-      :events="events"
-      @day-changed="handleDayChanged">
-        <!-- <template scope="props">
-          <div v-for="(event, index) in props.showEvents" :key="index" class="event-item">
-            {{event}}
-          </div>
-        </template> -->
-        <template slot-scope="props">
-          <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center event-item"
-                v-for="(item, index) in props.showEvents"
-                :key="index">
-              <a>{{ item.title }}</a>
-              <span class="badge">
-                {{ item.desc }} $
-              </span>
-            </li>
-          </ul>
-        </template>
-      </vue-event-calendar>
-    </div>
-    <!-- <div class="row">
-      <div class="col">
-        <p class="h3 text-center">Spent this month: {{ $store.state.totalStock }} $</p>
-        <hr class="my-4">
-        <bar-example :data="chart"/>
-        <br>
+    <div class="overview">
+      <div class="overview-item">
+        <div class="overview-item-value">
+          {{ spentOnItems }}
+        </div>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 5" width="45" height="5" fill="#fbab53">
+          <path id="Indicator" class="shp0" d="M0,4h44v-4h-44z" />
+        </svg>
+        <div class="overview-item-name">
+          spent on items
+        </div>
       </div>
-    </div> -->
+      <div class="overview-item">
+        <div class="overview-item-value">
+          {{ items.length }}
+        </div>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 5" width="45" height="5" fill="#8c88ff">
+          <path id="Indicator" class="shp0" d="M0,4h44v-4h-44z" />
+        </svg>
+        <div class="overview-item-name">
+          purchased products
+        </div>
+      </div>
+    </div>
+    <ul class="list">
+      <transition-group name="list">
+        <li
+            v-for="(item, index) in items"
+            :key="index">
+          <a>{{ item.name }}</a>
+          <span class="price">
+            {{ item.price }} $
+          </span>
+        </li>
+      </transition-group>
+    </ul>
   </div>
 </template>
 
@@ -40,45 +45,54 @@ import moment from 'moment'
 export default {
   data () {
     return {
-      events: [
-        // {
-        //   date: '2016/12/15',
-        //   title: 'eat',
-        //   desc: 'longlonglong description'
-        // },
-        // {
-        //   date: '2016/11/12',
-        //   title: 'this is a title'
-        // }
-      ]
+      items: [],
+      spentOnItems: 0
     }
   },
   methods: {
-    handleDayChanged (data) {
-      console.log(data)
+    getItemList () {
+      this.items = []
+      this.spentOnItems = 0
+      this.$store.state.stock.forEach(el => {
+        if (moment(this.$store.state.selectedDate).format('DD.MM.YYYY') === moment(el.purchaseDate).format('DD.MM.YYYY')) {
+          this.items.push(el)
+          this.spentOnItems += Number(el.price)
+        }
+      })
     }
   },
   mounted () {
     this.$store.dispatch('totalInStock')
-    this.$store.state.stock.forEach(el => {
-      this.events.push({ date: moment(el.purchaseDate).format('YYYY/MM/DD'), title: el.name, desc: el.price })
-    })
-    // set event calendar today
-    console.log(this.$EventCalendar)
+    this.getItemList()
+  },
+  watch: {
+    '$store.state.selectedDate': function (val1, val2) {
+      this.getItemList()
+    }
   }
 }
 </script>
 
 <style lang="scss">
-.events-wrapper {
-  // color is changed by plugin internal JavaScript :(
-  background-color: #e9ecef !important;
-  .date {
-    display: none;
+@import '../styles/main';
+.overview {
+  display: flex;
+  justify-content: center;
+  .overview-item {
+    padding: 40px 20px;
+    text-align: center;
+    user-select: none;
+    .overview-item-value {
+      font-size: 22px;
+      line-height: 26px;
+    }
+    .overview-item-name {
+      text-transform: uppercase;
+      color: #1d1d26;
+      line-height: 35px;
+      font-size: 12px;
+      font-weight: 300;
+    }
   }
-}
-.is-today {
-  border-radius: 0 !important;
-  height: 2px !important;
 }
 </style>

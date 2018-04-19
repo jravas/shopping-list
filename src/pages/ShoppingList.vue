@@ -6,7 +6,9 @@
       </svg>
     </span>
     <items-list v-if="items" :data="items" @add="addToStock" @edit="editItem"></items-list>
-    <app-modal v-if="isModalOpen" @close="toggleModal('new')" @update="updateView" :data="{item: stockItem, edit: isModalEdit}"></app-modal>
+    <transition name="fade">
+      <app-modal v-if="isModalOpen" @close="toggleModal('new')" @update="updateView" :data="{item: stockItem, edit: isModalEdit}"></app-modal>
+    </transition>
   </div>
 </template>
 
@@ -73,6 +75,8 @@ export default {
   padding: 10px;
   display: inline-block;
   border-radius: 50%;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
   svg {
     display: block;
   }

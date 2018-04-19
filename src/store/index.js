@@ -18,7 +18,8 @@ export default new Vuex.Store({
     itemId: 0,
     items: [],
     stock: [],
-    totalStock: 0
+    totalStock: 0,
+    selectedDate: new Date()
   },
   actions: {
     addItem ({commit}, item) {
@@ -35,6 +36,9 @@ export default new Vuex.Store({
     },
     totalInStock ({commit}, item) {
       this.commit('totalInStockMutation', item)
+    },
+    selectDate ({commit}, item) {
+      this.commit('selectDateMutation', item)
     }
   },
   mutations: {
@@ -44,7 +48,6 @@ export default new Vuex.Store({
       state.items.push(item)
     },
     editItemMutation (state, item) {
-      console.log(item)
       state.items.forEach(el => {
         if (el.id === item.id) {
           el.name = item.name
@@ -66,6 +69,9 @@ export default new Vuex.Store({
       state.stock.forEach(el => {
         state.totalStock += Number(el.price)
       })
+    },
+    selectDateMutation (state, item) {
+      state.selectedDate = item
     }
   },
   plugins: [vuexLocalStorage.plugin]

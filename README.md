@@ -20,7 +20,7 @@
 - [ ] item.item in appModal -> Shopping list
 - [ ] stock and shopping list is empty message
 - [ ] download font
-
+- [ ] long names
 
 ## Build Setup
 

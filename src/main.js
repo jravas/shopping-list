@@ -3,10 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import 'vue-event-calendar/dist/style.css'
-import vueEventCalendar from 'vue-event-calendar'
+import VeeValidate from 'vee-validate'
 
-Vue.use(vueEventCalendar, {locale: 'en'})
+Vue.use(VeeValidate)
 
 Vue.config.productionTip = false
 
